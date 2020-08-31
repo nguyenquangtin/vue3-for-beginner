@@ -18,12 +18,18 @@ Dự án này mong giúp đỡ các bạn newbie có thể học VueJS v3 một 
   Dùng để render chữ thông thường
 
 - [v-html](https://vuejs.org/v2/api/#v-html)
-  Dùng
+  Dùng để render ra nội dung là code html
 
 - [v-show](https://vuejs.org/v2/api/#v-show)
+  Dùng để render ra nội dung tuỳ thuộc vào điều kiện trong directive là đúng
+
 - [v-if](https://vuejs.org/v2/api/#v-if)
+  Dùng để render ra nội dung tuỳ thuộc vào điều kiện trong directive là đúng
 - [v-else](https://vuejs.org/v2/api/#v-else)
+  Dùng để render ra nội dung tuỳ thuộc vào điều kiện trong directive ở `v-if` là không đúng
 - [v-else-if](https://vuejs.org/v2/api/#v-else-if)
+  Dùng để render ra nội dung tuỳ thuộc vào điều kiện trong directive ở `v-else-if` là không đúng. Phải dùng chung với `v-if` và `v-else`.
+
 - [v-for](https://vuejs.org/v2/api/#v-for)
 - [v-on](https://vuejs.org/v2/api/#v-on)
 - [v-bind](https://vuejs.org/v2/api/#v-bind)
