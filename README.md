@@ -71,6 +71,18 @@ Khi sử dụng nhiều modifier thì thứ tự từ nối rất quan trọng, 
 
 Đây là một thành phần quan trọng được liên kết với đối tượng Vue. Các method này dùng để truy cập vào các thông tin directives.
 
+### Computed
+
+Các thuộc tính được tính toán và lưu trữ lại kết quả và nó chỉ thay đổi và tính toán lại khi cần thiết. Computed có độ thực thi cực kỳ tốt nhưng nên sử dụng một cách có hiểu biết.
+
+| #### Computed | ### Methods |
+| Thay đổi khi các thuộc tính phụ thuộc thay đổi | Chạy mỗi khi có thay đổi |
+| Cached | Not cached |
+| Sử dụng giống như thuộc tính data | Phần lớn sử dụng với v-on/@ nhưng khá linh hoạt |
+| Thương là có hàm getter mặc định, nhưng có thể thêm setter | Có cả Getter/setter |
+
+### Watcher
+
 - Chương 3 - Components
 - Chương 4 - Vue CLI
 - Chương 5 - Filters, Mixins, & custom Directives
