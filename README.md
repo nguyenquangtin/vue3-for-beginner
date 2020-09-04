@@ -82,6 +82,25 @@ Các thuộc tính được tính toán và lưu trữ lại kết quả và nó
 | Thương là có hàm getter mặc định, nhưng có thể thêm setter | Có cả Getter/setter |
 
 ### Watcher
+ Đây là một thứ quan trọng trong VueJS. Watcher giúp bạn quan sát và cập nhật các sự kiện xảy ra cho dữ liệu bất đồng bộ. Khi bạn watch một giá trị, bạn có thể trigger một sự kiện khi mà giá trị đó thay đổi.
+
+```
+watch: { watchedProperty (value, oldValue) {
+  //your dope code here
+}
+```
+Bạn cũng có thể quan sát gía trị nằm trong thuộc tính bạn quan sát với giá trị `deep`.
+
+```
+watch: {
+  watchedProperty {
+    deep: true,
+    nestedWatchedProperty (value, oldValue) {
+      //your code here
+    }
+  }
+},
+```
 
 - Chương 3 - Components
 - Chương 4 - Vue CLI
