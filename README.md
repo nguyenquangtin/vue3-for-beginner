@@ -102,7 +102,20 @@ watch: {
 },
 ```
 
-- Chương 3 - Components
+## Chương 3 - Components
+
+### TEMPLATES
+
+Vue.js dùng định dạng và cú pháp HTML để gắn kết giữa đối tượng Vue và DOM, việc này rất có ích cho các thành phần (component).
+
+Nếu bạn không muốn sử dụng template, bạn có thể sử dụng trực tiếp hàm render và cú pháp JSX.
+
+### COMPONENTS
+
+### PROPS
+
+### DATA
+
 - Chương 4 - Vue CLI
 - Chương 5 - Filters, Mixins, & custom Directives
 - Chương 6 - Vuex
