@@ -111,10 +111,150 @@ Vue.js dùng định dạng và cú pháp HTML để gắn kết giữa đối t
 Nếu bạn không muốn sử dụng template, bạn có thể sử dụng trực tiếp hàm render và cú pháp JSX.
 
 ### COMPONENTS
+Là tập hợp các thành phần nhỏ hơn được gói gọn lại trong một nhóm và được truy cập thông qua tên nhóm của chúng.
+
+```JSX
+<div>
+  <p></p>
+  <div></div>
+  <p></p>
+  <small></small>
+</div>
+
+<hello></hello>
+```
 
 ### PROPS
+Dùng để truyền dữ liệu từ cha xuống con.
+Props được sử dụng theo hướng truyền dữ liệu một chiều.
+
+#### TYPES & VALIDATION
+```js
+props: {
+  text: [String, Number]
+}
+```
+
+```
+Vue.component('child', {
+  props: {
+    text: {
+      type: String,
+      required: true,
+      default: 'hello mr. magoo'
+    }
+  },
+  template: `<div>{{ text }}<div>`
+});
+```
+Bạn có thể truyền dữ liệu tĩnh hoặc dữ liệu động cho đối tượng con.
+```
+  <h4><app-child count="3"></app-child></h4>  <= this is binding static props
+  <h4><app-child :count="count"></app-child></h4> <= this is binding dynamic props
+```
 
 ### DATA
+
+Data phải là một hàm trả về trong VueJS.
+
+
+```js
+const app = Vue.createApp({
+  data() {
+    return {
+      manifest: [
+        {
+          item: "backpack",
+          url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/backpack.jpg"
+        },
+        {
+          item: "tshirt",
+          url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/tshirt.jpg"
+        },
+         {
+          item: "sweatshirt",
+          url: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/28963/sweatshirt.jpg"
+        },
+      ]
+    };
+  }
+})
+
+<div id="app">
+  <div class="unit" v-for="unit in manifest" :key="unit.item">
+    <app-child :item="unit.item" :url="unit.url"></app-child>
+  </div>
+</div>
+
+app.component('app-child', {
+  template: '#child',
+  props: ['item', 'url'],
+  data() {
+    return {
+      counter: 0
+    }
+  }
+})
+
+
+<div class="item">
+  <h2>{{ item }}</h2>
+  <img :src="url" width="235" height="300"/>
+  <div class="quantity">
+    <button class="inc" @click="counter > 0 ? counter -= 1 : 0">-</button>
+    <span class="quant-text">Quantity: {{ counter }}</span>
+    <button class="inc" @click="counter += 1">+</button>
+  </div>
+  <button class="submit">Submit</button>
+</div><!--item-->
+```
+
+### COMMUNICATIONS EVENTS
+
+Bạn cần dùng Emit để có thể giao tiếp thành phần con và cha. Emit là cách hiện tại duy nhất, chúng ta sẽ biết các cách khác thông qua Vuex và Composition API.
+
+Thành phần con sẽ báo các hoạt động cho thành phần cha bằng sự kiện emit.
+
+```JSX
+<my-component @myevent="parentHandler">
+  <button @click="$emit('myevent')"></button>
+  <button @click="$emit('myevent', param)"></button>
+</my-component>
+```
+
+
+### SLOTS
+
+Bạn có thể dùng slot để đục lỗ sẵn các đối tượng để sau này có thể thay đổi dữ liệu sau đó.
+
+```js
+<script type="text/x-template" id="childarea">
+  <div class="child">
+    <slot></slot>
+    <p>It's a veritable slot machine!<br>
+    Ha ha aw</p>
+  </div>
+</script>
+```
+
+```js
+<div id="app">
+  <h2>We can use slots to populate content</h2>
+  <app-child>
+    <h3>This is slot number one</h3>
+  </app-child>
+  <app-child>
+    <h3>This is slot number two</h3>
+    <small>I can put more info in, too!</small>
+  </app-child>
+</div>
+```
+
+Bạn cũng có thể có giá trị mặc định cho slot.
+```js
+<slot>I am some default text</slot>
+```
+
 
 - Chương 4 - Vue CLI
 - Chương 5 - Filters, Mixins, & custom Directives
