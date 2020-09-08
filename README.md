@@ -255,7 +255,108 @@ Bạn cũng có thể có giá trị mặc định cho slot.
 <slot>I am some default text</slot>
 ```
 
+## Chương 4 - Vue CLI
 
-- Chương 4 - Vue CLI
+### Tại sao nên dùng Vue Commandline
+- Quy trình build dễ dàng sử dụng với các chức năng nâng cao như ES6, SCSS và có thể sử dụng chung với các thư viện khác.
+- Chúng ta sẽ tập trung vào single file templates - nghĩa là một file tất cả trong một.
+- Không load tất cả mọi thứ một lần lúc khởi động (lazy load và chạy bất đồng bộ)
+- Server-side redering - render từ phía server, code theo từ mục riêng lẻ, có chỉ số cao
+- Có thể build bản production.
+
+#### Single file template
+```js
+<template>
+  <div>
+     <!-- Write your HTML with Vue in here -->
+  </div>
+</template>
+
+<script>
+  export default {
+     // Write your Vue component logic here
+  }
+</script>
+
+<style scoped>
+  /* Write your styles for the component in here */
+</style>
+```
+```js
+import New from './components/New.vue';
+
+export default {
+  components: {
+    appNew: New
+  }
+}
+<app-new></app-new> <= the compoenent will be like this
+```
+
+## snippets save lives
+
+- [vue-vscode-snippets](https://marketplace.visualstudio.com/items?itemName=sdras.vue-vscode-snippets)
+- [vue-sublime-snippets](https://github.com/sdras/vue-sublime-snippets)
+- [atom (v 1.x)](https://atom.io/packages/vue-snippets)
+- [Vetur for vscode](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
+
+
+```
+<style scoped>
+```
+⇒ Cho phép chúng ta chỉ sử dụng style cho component này.
+
+Các import css một cách tổng quát toàn dự án - https://css-tricks.com/how-to-import-a-sass-file-into-every-vue-component-in-an-app/
+
+
+### Lifecycle hook - Vòng đời
+
+- [beforeCreate](https://v3.vuejs.org/api/options-lifecycle-hooks.html#beforecreate)
+- [created](https://v3.vuejs.org/api/options-lifecycle-hooks.html#created) - great place to call APIs
+- [beforeMount](https://v3.vuejs.org/api/options-lifecycle-hooks.html#beforemount)
+- [mounted](https://v3.vuejs.org/api/options-lifecycle-hooks.html#mounted) - great place to work on DOM operations
+- [beforeUpdate](https://v3.vuejs.org/api/options-lifecycle-hooks.html#beforeupdate)
+- [updated](https://v3.vuejs.org/api/options-lifecycle-hooks.html#updated)
+- [activated](https://v3.vuejs.org/api/options-lifecycle-hooks.html#activated) - associated for keep-alive
+- [deactivated](https://v3.vuejs.org/api/options-lifecycle-hooks.html#deactivated)
+- [beforeUnmount](https://v3.vuejs.org/api/options-lifecycle-hooks.html#beforeunmount) (was beforeDestroy v2)
+- [unmounted](https://v3.vuejs.org/api/options-lifecycle-hooks.html#unmounted) (was destroyed v2)
+- [errorCaptured](https://v3.vuejs.org/api/options-lifecycle-hooks.html#errorcaptured) - (new! v3)
+- [renderTracked](https://v3.vuejs.org/api/options-lifecycle-hooks.html#rendertracked) - (new! v3) when vDOM is rerendered, good for debugging
+- [renderTriggered](https://v3.vuejs.org/api/options-lifecycle-hooks.html#rendertriggered) - (new! v3)similar, but tells you what triggered the rerendering
+
+```js
+const Child = {
+  template: '#childarea',
+  beforeCreate() {
+    console.log("beforeCreate!");
+  },
+ ...
+};
+
+new Vue({
+  el: '#app',
+  data() {
+    return {
+      isShowing: false
+    }
+  },
+  methods: {
+    toggleShow() {
+      this.isShowing = !this.isShowing;
+    }
+  },
+  components: {
+    appChild: Child
+  }
+});
+```
+
+Vòng đời hook được tự động gắn vào mỗi đối tượng Vue để bạn có thể sử dụng các chức năng của thành phần như state, method. Bạn không nên sử dụng arrow function trong các method liên quan tới vòng đời vì nó sẽ trả về cha thay vì gắn vào đối tượng Vue như bạn mong đợi.
+
+## nuxt & routing
+
+
 - Chương 5 - Filters, Mixins, & custom Directives
 - Chương 6 - Vuex
+
