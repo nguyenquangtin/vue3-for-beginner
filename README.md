@@ -355,7 +355,16 @@ new Vue({
 Vòng đời hook được tự động gắn vào mỗi đối tượng Vue để bạn có thể sử dụng các chức năng của thành phần như state, method. Bạn không nên sử dụng arrow function trong các method liên quan tới vòng đời vì nó sẽ trả về cha thay vì gắn vào đối tượng Vue như bạn mong đợi.
 
 ## nuxt & routing
-
+Các điểm đặc biệt về nuxt
+- Code tự động được phân chia
+- Server side Rendering
+- Có hệ thống routing xịn hoạt động tốt với dữ liệu bất đồng bộ
+- Có chỉ số tốt khi sử dụng với Google Light House
+- Cho phép cung cấp file tĩnh (đã được biên soạn trước)
+- Hổ trợ ES6/ES7
+- Hot reloading khi đang phát triển
+- Hổ trọ xử lý CSS như SASS, LESS, stylus, v.v...
+- Hổ trợ viết các file vue
 
 - Chương 5 - Filters, Mixins, & custom Directives
 - Chương 6 - Vuex
