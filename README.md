@@ -366,6 +366,79 @@ Các điểm đặc biệt về nuxt
 - Hổ trọ xử lý CSS như SASS, LESS, stylus, v.v...
 - Hổ trợ viết các file vue
 
-- Chương 5 - Filters, Mixins, & custom Directives
+## Chương 5 - Filters, Mixins, & custom Directives
+
+### Filters
+- Đầu tiên bạn phải hiểu là filters không thay thế cho hàm - methods, các giá trị computed, hoặc watchers. Filters không thay đổi giá trị của data mà chỉ thay đổi cách xuất ra giá trị cho người dùng xem.
+
+Sau đây là hai cách đăng ký filters mới:
+
+
+```js
+//global
+Vue.filter('filterName', function(value) {
+  return // trả về dữ liệu biến đổi
+});
+```
+
+```js
+//locally, like methods or computed
+filters: {
+  filterName(value) {
+    return // trả về dữ liệu biến đổi
+  }
+}
+```
+
+Khi đó bạn có thể sử dụng như thế này
+
+```js
+{{ data | filter }}
+///--------------------
+{{ text | capitalize }}
+```
+
+Ví dụ cụ thể
+
+```js
+new Vue({
+  el: '#app',
+  data() {
+    return {
+      customer1total: 35.43
+    }
+  },
+  filters: {
+    tip15(value) {
+      return (value*.15).toFixed(2)
+    },
+    ...
+  }
+}
+```
+Cách sử dụng trong HTML
+```html
+<div id="app">
+  <h2>Tip Calculator</h2>
+  <p><strong>Total: {{ customer1total }}</strong></p>
+  <p>15%: {{ customer1total | tip15 }}</p>
+  ...
+</div>
+```
+#### Bạn có thể sử dụng nhiều tham số cho filters
+
+```js
+{{ data | filterName(arg1, arg2) }}
+```
+```js
+// arguments are passed in order after the value
+filters: {
+  filterName(value, arg1, arg2) {
+    return //thing to transform
+  }
+}
+```
+Filter sẽ tốt nếu bạn cần chuyển đổi số lượng lớn dữ liệu hoặc công việc lặp đi lặp lại. Nếu chỉ sử dụng cho 1 trường hợp thì bạn nên sử dụng computed, dữ liệu mà nên cached lại.
+
 - Chương 6 - Vuex
 
