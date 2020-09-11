@@ -440,5 +440,85 @@ filters: {
 ```
 Filter sẽ tốt nếu bạn cần chuyển đổi số lượng lớn dữ liệu hoặc công việc lặp đi lặp lại. Nếu chỉ sử dụng cho 1 trường hợp thì bạn nên sử dụng computed, dữ liệu mà nên cached lại.
 
+## Mixings
+
+Trong trường hợp thông thường bạn có hai component  mà chức năng gần giống hệt như nhau. Chúng có chung một số chức năng nhưng có một số khác biệt nhất định. Bạn sẽ đứng giữa quyết định  là tạo hai component riêng biệt hay tạo biến với props để làm cho chúng khác nhau.
+
+Có một cách để giải quyết trường hợp này gọi là mixin. Một mixin là cách bạn tách một phần chức năng bạn muốn sử dụng trong component khác thông qua ứng dụng. Nếu sử dụng một cách hợp lý bạn sẽ không cần phải điều chỉnh gì thêm và các component sẽ nhận được giá trị như nhau dù chạy ở các component khác nhau.
+
+```js
+//modal
+const Modal = {
+  template: '#modal',
+  data() {
+    return {
+      isShowing: false
+    }
+  },
+  methods: {
+    toggleShow() {
+      this.isShowing = !this.isShowing;
+    }
+  },
+  components: {
+    appChild: Child
+  }
+}```
+
+```js
+//tooltip
+const Tooltip = {
+  template: '#tooltip',
+  data() {
+    return {
+      isShowing: false
+    }
+  },
+  methods: {
+    toggleShow() {
+      this.isShowing = !this.isShowing;
+    }
+  },
+  components: {
+    appChild: Child
+  }
+}
+```
+
+#### Refactor to
+
+```js
+const toggle = {
+  data() {
+    return {
+      isShowing: false
+    }
+  },
+  methods: {
+    toggleShow() {
+      this.isShowing = !this.isShowing;
+    }
+  }
+}
+
+const Modal = {
+  template: '#modal',
+  mixins: [toggle],
+  components: {
+    appChild: Child
+  }
+};
+
+const Tooltip = {
+  template: '#tooltip',
+  mixins: [toggle],
+  components: {
+    appChild: Child
+  }
+};
+
+```
+
+
 - Chương 6 - Vuex
 
