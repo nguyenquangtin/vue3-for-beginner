@@ -516,9 +516,76 @@ const Tooltip = {
     appChild: Child
   }
 };
+```
+
+### Cách thức code sẽ được merge với mixin
+
+Mặc định, mixin sẽ được áp dụng trước sau đó component sẽ được áp dụng thứ hai sau đó để chúng ta có thể ghi đè.
+
+Component mặc định là người cuối cùng lên tiếng hay có khả năng ghi đè lên tất cả còn lại.
+
+```js
+//mixin
+const hi = {
+  mounted() {
+    console.log('hello from mixin!')
+  }
+}
+
+//vue instance or component
+new Vue({
+  el: '#app',
+  mixins: [hi],
+  mounted() {
+    console.log('hello from Vue instance!')
+  }
+});
+
+//Output in console
+//> hello from mixin!
+//> hello from Vue instance!
 
 ```
 
+#### OVERWRITE
+```js
+//mixin
+const hi = {
+  methods: {
+    sayHello: function() {
+      console.log('hello from mixin!')
+    }
+  },
+  mounted() {
+    this.sayHello()
+  }
+}
+
+//vue instance or component
+new Vue({
+  el: '#app',
+  mixins: [hi],
+  methods: {
+    sayHello: function() {
+      console.log('hello from Vue instance!')
+    }
+  },
+  mounted() {
+    this.sayHello()
+  }
+})
+
+// Output in console
+//> hello from Vue instance!
+//> hello from Vue instance!
+```
+
+
+#### GLOBAL MIXINS
+
+Global mixins là loại mixins mà bạn có thể sử dụng cho tất cả các component. Trường hợp tốt nhất bạn có thể nghĩ tới như là một plugin, bạn có thể gọi từ bất cứ component nào.
+
+> Bạn nên biết rằng global mixins rất mạnh mẽ nhưng phải xài một cách cực kỳ cẩn thận.
 
 - Chương 6 - Vuex
 
