@@ -82,13 +82,15 @@ Các thuộc tính được tính toán và lưu trữ lại kết quả và nó
 | Thương là có hàm getter mặc định, nhưng có thể thêm setter | Có cả Getter/setter |
 
 ### Watcher
- Đây là một thứ quan trọng trong VueJS. Watcher giúp bạn quan sát và cập nhật các sự kiện xảy ra cho dữ liệu bất đồng bộ. Khi bạn watch một giá trị, bạn có thể trigger một sự kiện khi mà giá trị đó thay đổi.
+
+Đây là một thứ quan trọng trong VueJS. Watcher giúp bạn quan sát và cập nhật các sự kiện xảy ra cho dữ liệu bất đồng bộ. Khi bạn watch một giá trị, bạn có thể trigger một sự kiện khi mà giá trị đó thay đổi.
 
 ```
 watch: { watchedProperty (value, oldValue) {
   //your dope code here
 }
 ```
+
 Bạn cũng có thể quan sát gía trị nằm trong thuộc tính bạn quan sát với giá trị `deep`.
 
 ```
@@ -111,6 +113,7 @@ Vue.js dùng định dạng và cú pháp HTML để gắn kết giữa đối t
 Nếu bạn không muốn sử dụng template, bạn có thể sử dụng trực tiếp hàm render và cú pháp JSX.
 
 ### COMPONENTS
+
 Là tập hợp các thành phần nhỏ hơn được gói gọn lại trong một nhóm và được truy cập thông qua tên nhóm của chúng.
 
 ```JSX
@@ -125,13 +128,15 @@ Là tập hợp các thành phần nhỏ hơn được gói gọn lại trong m�
 ```
 
 ### PROPS
+
 Dùng để truyền dữ liệu từ cha xuống con.
 Props được sử dụng theo hướng truyền dữ liệu một chiều.
 
 #### TYPES & VALIDATION
+
 ```js
 props: {
-  text: [String, Number]
+  text: [String, Number];
 }
 ```
 
@@ -147,7 +152,9 @@ Vue.component('child', {
   template: `<div>{{ text }}<div>`
 });
 ```
+
 Bạn có thể truyền dữ liệu tĩnh hoặc dữ liệu động cho đối tượng con.
+
 ```
   <h4><app-child count="3"></app-child></h4>  <= this is binding static props
   <h4><app-child :count="count"></app-child></h4> <= this is binding dynamic props
@@ -156,7 +163,6 @@ Bạn có thể truyền dữ liệu tĩnh hoặc dữ liệu động cho đối
 ### DATA
 
 Data phải là một hàm trả về trong VueJS.
-
 
 ```js
 const app = Vue.createApp({
@@ -222,7 +228,6 @@ Thành phần con sẽ báo các hoạt động cho thành phần cha bằng s�
 </my-component>
 ```
 
-
 ### SLOTS
 
 Bạn có thể dùng slot để đục lỗ sẵn các đối tượng để sau này có thể thay đổi dữ liệu sau đó.
@@ -251,6 +256,7 @@ Bạn có thể dùng slot để đục lỗ sẵn các đối tượng để sa
 ```
 
 Bạn cũng có thể có giá trị mặc định cho slot.
+
 ```js
 <slot>I am some default text</slot>
 ```
@@ -258,6 +264,7 @@ Bạn cũng có thể có giá trị mặc định cho slot.
 ## Chương 4 - Vue CLI
 
 ### Tại sao nên dùng Vue Commandline
+
 - Quy trình build dễ dàng sử dụng với các chức năng nâng cao như ES6, SCSS và có thể sử dụng chung với các thư viện khác.
 - Chúng ta sẽ tập trung vào single file templates - nghĩa là một file tất cả trong một.
 - Không load tất cả mọi thứ một lần lúc khởi động (lazy load và chạy bất đồng bộ)
@@ -265,6 +272,7 @@ Bạn cũng có thể có giá trị mặc định cho slot.
 - Có thể build bản production.
 
 #### Single file template
+
 ```js
 <template>
   <div>
@@ -282,6 +290,7 @@ Bạn cũng có thể có giá trị mặc định cho slot.
   /* Write your styles for the component in here */
 </style>
 ```
+
 ```js
 import New from './components/New.vue';
 
@@ -300,14 +309,13 @@ export default {
 - [atom (v 1.x)](https://atom.io/packages/vue-snippets)
 - [Vetur for vscode](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
 
-
 ```
 <style scoped>
 ```
+
 ⇒ Cho phép chúng ta chỉ sử dụng style cho component này.
 
 Các import css một cách tổng quát toàn dự án - https://css-tricks.com/how-to-import-a-sass-file-into-every-vue-component-in-an-app/
-
 
 ### Lifecycle hook - Vòng đời
 
@@ -355,7 +363,9 @@ new Vue({
 Vòng đời hook được tự động gắn vào mỗi đối tượng Vue để bạn có thể sử dụng các chức năng của thành phần như state, method. Bạn không nên sử dụng arrow function trong các method liên quan tới vòng đời vì nó sẽ trả về cha thay vì gắn vào đối tượng Vue như bạn mong đợi.
 
 ## nuxt & routing
+
 Các điểm đặc biệt về nuxt
+
 - Code tự động được phân chia
 - Server side Rendering
 - Có hệ thống routing xịn hoạt động tốt với dữ liệu bất đồng bộ
@@ -369,15 +379,15 @@ Các điểm đặc biệt về nuxt
 ## Chương 5 - Filters, Mixins, & custom Directives
 
 ### Filters
+
 - Đầu tiên bạn phải hiểu là filters không thay thế cho hàm - methods, các giá trị computed, hoặc watchers. Filters không thay đổi giá trị của data mà chỉ thay đổi cách xuất ra giá trị cho người dùng xem.
 
 Sau đây là hai cách đăng ký filters mới:
 
-
 ```js
 //global
-Vue.filter('filterName', function(value) {
-  return // trả về dữ liệu biến đổi
+Vue.filter("filterName", function (value) {
+  return; // trả về dữ liệu biến đổi
 });
 ```
 
@@ -393,9 +403,17 @@ filters: {
 Khi đó bạn có thể sử dụng như thế này
 
 ```js
-{{ data | filter }}
+{
+  {
+    data | filter;
+  }
+}
 ///--------------------
-{{ text | capitalize }}
+{
+  {
+    text | capitalize;
+  }
+}
 ```
 
 Ví dụ cụ thể
@@ -416,7 +434,9 @@ new Vue({
   }
 }
 ```
+
 Cách sử dụng trong HTML
+
 ```html
 <div id="app">
   <h2>Tip Calculator</h2>
@@ -425,11 +445,17 @@ Cách sử dụng trong HTML
   ...
 </div>
 ```
+
 #### Bạn có thể sử dụng nhiều tham số cho filters
 
 ```js
-{{ data | filterName(arg1, arg2) }}
+{
+  {
+    data | filterName(arg1, arg2);
+  }
+}
 ```
+
 ```js
 // arguments are passed in order after the value
 filters: {
@@ -438,15 +464,16 @@ filters: {
   }
 }
 ```
+
 Filter sẽ tốt nếu bạn cần chuyển đổi số lượng lớn dữ liệu hoặc công việc lặp đi lặp lại. Nếu chỉ sử dụng cho 1 trường hợp thì bạn nên sử dụng computed, dữ liệu mà nên cached lại.
 
 ## Mixings
 
-Trong trường hợp thông thường bạn có hai component  mà chức năng gần giống hệt như nhau. Chúng có chung một số chức năng nhưng có một số khác biệt nhất định. Bạn sẽ đứng giữa quyết định  là tạo hai component riêng biệt hay tạo biến với props để làm cho chúng khác nhau.
+Trong trường hợp thông thường bạn có hai component mà chức năng gần giống hệt như nhau. Chúng có chung một số chức năng nhưng có một số khác biệt nhất định. Bạn sẽ đứng giữa quyết định là tạo hai component riêng biệt hay tạo biến với props để làm cho chúng khác nhau.
 
 Có một cách để giải quyết trường hợp này gọi là mixin. Một mixin là cách bạn tách một phần chức năng bạn muốn sử dụng trong component khác thông qua ứng dụng. Nếu sử dụng một cách hợp lý bạn sẽ không cần phải điều chỉnh gì thêm và các component sẽ nhận được giá trị như nhau dù chạy ở các component khác nhau.
 
-```js
+````js
 //modal
 const Modal = {
   template: '#modal',
@@ -483,7 +510,7 @@ const Tooltip = {
     appChild: Child
   }
 }
-```
+````
 
 #### Refactor to
 
@@ -491,30 +518,30 @@ const Tooltip = {
 const toggle = {
   data() {
     return {
-      isShowing: false
-    }
+      isShowing: false,
+    };
   },
   methods: {
     toggleShow() {
       this.isShowing = !this.isShowing;
-    }
-  }
-}
+    },
+  },
+};
 
 const Modal = {
-  template: '#modal',
+  template: "#modal",
   mixins: [toggle],
   components: {
-    appChild: Child
-  }
+    appChild: Child,
+  },
 };
 
 const Tooltip = {
-  template: '#tooltip',
+  template: "#tooltip",
   mixins: [toggle],
   components: {
-    appChild: Child
-  }
+    appChild: Child,
+  },
 };
 ```
 
@@ -528,58 +555,57 @@ Component mặc định là người cuối cùng lên tiếng hay có khả nă
 //mixin
 const hi = {
   mounted() {
-    console.log('hello from mixin!')
-  }
-}
+    console.log("hello from mixin!");
+  },
+};
 
 //vue instance or component
 new Vue({
-  el: '#app',
+  el: "#app",
   mixins: [hi],
   mounted() {
-    console.log('hello from Vue instance!')
-  }
+    console.log("hello from Vue instance!");
+  },
 });
 
 //Output in console
 //> hello from mixin!
 //> hello from Vue instance!
-
 ```
 
 #### OVERWRITE
+
 ```js
 //mixin
 const hi = {
   methods: {
-    sayHello: function() {
-      console.log('hello from mixin!')
-    }
+    sayHello: function () {
+      console.log("hello from mixin!");
+    },
   },
   mounted() {
-    this.sayHello()
-  }
-}
+    this.sayHello();
+  },
+};
 
 //vue instance or component
 new Vue({
-  el: '#app',
+  el: "#app",
   mixins: [hi],
   methods: {
-    sayHello: function() {
-      console.log('hello from Vue instance!')
-    }
+    sayHello: function () {
+      console.log("hello from Vue instance!");
+    },
   },
   mounted() {
-    this.sayHello()
-  }
-})
+    this.sayHello();
+  },
+});
 
 // Output in console
 //> hello from Vue instance!
 //> hello from Vue instance!
 ```
-
 
 #### GLOBAL MIXINS
 
@@ -587,5 +613,23 @@ Global mixins là loại mixins mà bạn có thể sử dụng cho tất cả c
 
 > Bạn nên biết rằng global mixins rất mạnh mẽ nhưng phải xài một cách cực kỳ cẩn thận.
 
-- Chương 6 - Vuex
+#### CUSTOM DIRECTIVES - Directives nhà trồng
 
+- Phần này hơi phức tạp chắc sẽ quay lại sau
+
+## Chương 6 - Vuex
+
+### WHAT - Nó là cái gì
+
+- Là nơi tập trung để chia sẽ data và logic cho app của bạn, kể các các methods hoặc các hàm async
+- Unidirectional data flow hay dữ liệu đi theo một hướng View-Action-State theo cách mình định hướng
+- Dựa trên kiến trúc của Flux
+- Hoạt động tương tự như Redux
+
+### WHY - Tại sao nên dùng nó nhỡ?
+
+- Trong một ứng dụng một trang (SPA) phức tạp, việc truyền dữ liệu giữa các components đôi khi sẽ làm ứng dụng bạn trở nên phức tạp khá nhanh. Việc tập trung dữ liệu lại một chỗ sẽ giúp bạn truy cập cũng như tổ chức code, dữ liệu một cách có trật tự hơn.
+
+### WHEN - Khi nào thì mình nên gắn Vuex vào?
+
+Có thể là bạn sẽ tự nhân ra hoặc có quá nhiều componet con hoặc anh/chị/em đang cố gáng nói chuyện với nhau.
