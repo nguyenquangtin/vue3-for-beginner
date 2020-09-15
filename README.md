@@ -633,3 +633,58 @@ Global mixins là loại mixins mà bạn có thể sử dụng cho tất cả c
 ### WHEN - Khi nào thì mình nên gắn Vuex vào?
 
 Có thể là bạn sẽ tự nhân ra hoặc có quá nhiều componet con hoặc anh/chị/em đang cố gáng nói chuyện với nhau.
+
+### HOW - Làm thế nào để dùng Vuex?
+
+```js
+npm install --save vuex
+
+or
+
+yarn add vuex
+```
+
+Trong source code, mình tạo một folder mới tên là store và lưu file store.js vào trong này. Sau đó code của file `store.js` sẽ đại loại giống như vầy:
+
+```js
+import Vue from "vue";
+import Vuex from "vuex";
+
+Vue.use(Vuex);
+
+export const store = new Vuex.Store({
+  state: {
+    key: value,
+  },
+});
+```
+
+Sau đó trong file `main.js` - hay file chính của ứng dụng vue của bạn, hãy cập nhật nó như thế này:
+
+```js
+import Vue from "vue";
+import App from "./App.vue";
+
+import { store } from "./store/store"; // Bạn sẽ cần line này
+
+new Vue({
+  el: "#app",
+  store: store, // và line này
+  template: "<App/>",
+  components: { App },
+});
+```
+
+### Getters, mutations và Actions
+
+#### Getters là gì?
+
+- Getters dùng để hiển dữ liệu tĩnh từ store đến template. Nói cách khác getters có thể đọc dữ liệu từ store nhưng ko thể mutate state.
+
+#### Mutations
+
+- Mutations sẽ cho phép chúng ta cập nhật state theo cách đồng bộ - synchronous. Muations là cách duy nhất để thay đổi giá trị dữ liệu trong store.
+
+#### Actions
+
+- Actions cho phép chúng ta cập nhật state một cách bất đồng bộ nhưng thông qua các mutation hiện tại. Việc này cho phép chúng ta thực hiện nhiều mutations khác nhau cùng một lúc theo một trình tự nhất định để gửi đến máy chủ.
