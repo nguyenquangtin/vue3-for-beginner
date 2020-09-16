@@ -688,3 +688,359 @@ new Vue({
 #### Actions
 
 - Actions cho phép chúng ta cập nhật state một cách bất đồng bộ nhưng thông qua các mutation hiện tại. Việc này cho phép chúng ta thực hiện nhiều mutations khác nhau cùng một lúc theo một trình tự nhất định để gửi đến máy chủ.
+
+##### Actions examples
+
+```js
+actions: {
+  increment ({ commit }) {
+    commit('increment')
+  }
+}
+
+actions: {
+  asyncIncrement ({ commit }) {
+    setTimeout(() => {
+      commit('increment')
+    }, 1000)
+  }
+}
+
+methods: {
+  asyncIncrement() {
+    this.$store.dispatch('asyncIncrement')
+  }
+}
+```
+
+V3
+
+```js
+actions: {
+  asyncIncrement: ({ commit }, asyncNum) => {
+    setTimeout(() => {
+      commit('increment', asyncNum.by);
+    }, asyncNum.dur);
+  }
+}
+
+methods: {
+  asyncIncrement() {
+    this.$store.dispatch('asyncIncrement', {
+      by: 10,
+      dur: 1000
+    })
+  }
+}
+```
+
+On the component itself, we would use computed for getters (this makes sense because the value is already computed for us), and methods with commit to access the mutations, and methods with dispatch for the actions:
+
+Trong component, chúng ta sẽ sử dụng computed cho getters (điều này hoàn toàn hợp lý vì gía trị đã được computed cho chúngt ta), các hàm dùng dùng commit để truy cập vào các mutations, và cuối cùng là các hàm dùng để dispatch cho actions:
+
+Trong đối tượng Vue lúc này chúng ta có:
+
+```js
+computed: {
+  value() {
+    return this.$store.getters.tripleCounter;
+  }
+},
+methods: {
+  increment() {
+    this.$store.commit('increment', 2)
+  },
+  asyncIncrement() {
+    this.$store.dispatch('asyncIncrement', 2)
+  }
+}
+```
+
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
+
+export const store = new Vuex.Store({
+  state: {
+    counter: 0
+  },
+ ...
+});
+```
+
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
+
+export const store = new Vuex.Store({
+  state: {
+    counter: 0
+  },
+ ...
+});
+```
+
+Template file
+
+```js
+<template>
+  <div id="app">
+    State from the store is <span>{{ state }}</span>
+    <getter />
+    <mutation />
+    <action />
+    <adjust-state />
+  </div>
+</template>
+
+<script>
+import Getter from './components/Getter.vue';
+import Mutation from './components/Mutation.vue';
+import Action from './components/Action.vue';
+import AdjustState from './components/AdjustState.vue';
+
+export default {
+  computed: {
+    state() {
+      return this.$store.state.counter;
+    }
+  },
+  components: {
+    Getter,
+    Mutation,
+    Action,
+    AdjustState
+  }
+}
+</script>
+```
+
+Getter
+
+```js
+<template>
+  <div>
+    The getter for triple counter from the store is {{ triple }}
+  </div>
+</template>
+
+
+<script>
+  export default {
+    computed: {
+      triple() {
+        return this.$store.getters.tripleCounter;
+      }
+    }
+  }
+</script>
+
+// in store.js
+//showing things, not mutating state
+getters: {
+  tripleCounter: state => {
+    return state.counter * 3;
+  }
+},
+```
+
+Mutation
+
+```js
+<template>
+  <div>
+    Let's increment by two with a mutation: <button @click="increment">Increment</button>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    increment() {
+      this.$store.commit('increment', 2)
+    }
+  }
+}
+</script>
+
+In store.js:
+
+//mutating the state
+//mutations are always synchronous
+mutations: {
+  //showing passed with payload, represented as num
+  increment: (state, num) => {
+    state.counter += num;
+  }
+},
+```
+
+action
+
+```js
+<template>
+  <div>
+    Let's increment by two with an action async: <button @click="asyncInc">Wait 1s and add 10</button>
+  </div>
+</template>
+
+
+<script>
+  export default {
+    methods: {
+      asyncInc() {
+        this.$store.dispatch('incrementAsync', 10)
+      }
+    }
+  }
+</script>
+
+// In store.js:
+
+//commits the mutation, it's asynchronous
+actions: {
+  // showing passed with payload
+  incrementAsync ({ commit }, num) {
+    setTimeout(() => {
+      commit('increment', num)
+    }, 1000)
+  }
+}
+```
+
+Hoặc là bạn có thể dùng spead operator để code hiệu quả hơn khi làm việc với nhiều getters/ mutions/ actions:
+
+```js
+import { mapActions } from "vuex";
+
+export default {
+  // ...
+  methods: {
+    ...mapActions([
+      // map this.increment() to this.$store.commit('increment')
+      "increment",
+      "decrement",
+      "asyncIncrement",
+    ]),
+  },
+};
+```
+
+This allows us to still make our own computed properties if we wish
+
+```js
+<button @click="increment(5)">Number of TACOS</button>
+import {mapActions} from 'vuex';
+
+export default {
+  // ...
+  methods: {
+    ...mapActions([
+      // map this.increment() to this.$store.commit('increment')
+      'increment',
+      'decrement',
+      'asyncIncrement'
+    ])
+  }
+}
+
+actions: {
+    // showing passed with payload
+    incrementAsync ({ commit }, num) {
+      setTimeout(() => {
+        commit('increment', num)
+      }, 1000)
+    }
+  }
+```
+
+#### COORDINATE STATE WITH VUEX
+
+```js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
+
+export const store = new Vuex.Store({
+  state: {
+    showWeather: false,
+    template: 0
+  },
+    mutations: {
+      toggle: state => state.showWeather = !state.showWeather,
+      updateTemplate: (state) => {
+        state.showWeather = !state.showWeather;
+        state.template = (state.template + 1) % 4;
+      }
+  }
+});
+
+<g id="phonebutton" @click="updateTemplate" v-if="!showWeather">
+...
+</g>
+
+<transition
+    @leave="leaveDroparea"
+    :css="false">
+  <g v-if="showWeather">
+    <app-droparea v-if="template === 1"></app-droparea>
+    <app-windarea v-else-if="template === 2"></app-windarea>
+    <app-rainbowarea v-else-if="template === 3"></app-rainbowarea>
+    <app-tornadoarea v-else></app-tornadoarea>
+  </g>
+</transition>
+
+```
+
+#### ADVANCE AND COORDINATE WITH VUEX
+
+```js
+<script>
+export default {
+  computed: {
+    template() {
+      return this.$store.state.template;
+    }
+  },
+  methods: {
+    toggle() {
+      this.$store.commit('toggle');
+    }
+  },
+  mounted () {
+    //enter weather
+    const tl = new TimelineMax();
+    ...
+  }
+}
+</script>
+```
+
+```js
+export const state = () => ({
+  value: "myvalue",
+});
+
+export const getters = {
+  getterValue: (state) => {
+    return state.value;
+  },
+};
+
+export const mutations = {
+  updateValue: (state, payload) => {
+    state.value = payload;
+  },
+};
+
+export const actions = {
+  updateActionValue({ commit }) {
+    commit("updateValue", payload);
+  },
+};
+```
