@@ -615,7 +615,112 @@ Global mixins là loại mixins mà bạn có thể sử dụng cho tất cả c
 
 #### CUSTOM DIRECTIVES - Directives nhà trồng
 
-- Phần này hơi phức tạp chắc sẽ quay lại sau
+##### v-example="value"
+với loại cấu trúc này thì nó không cần bất kỳ tham số nào. Vì không có tham số nên nó sẽ khôgn linh hoạt bằng cách loại khác.
+
+Ví dụ:
+```js
+<div v-if="showPopup">
+xxxx
+</div>
+<p v-html="'<strong>đây là một đoán text html</strong>'"></p>
+```
+
+##### v-example:arg="value"
+Loại cấu trúc này cho phép chúng ta thêm tham số vào các directive.
+
+```js
+<div v-bind:class="someClassObject"></div>
+```
+
+##### v-example:arg.modifier="value"
+Cấu trúc này cho phép chúng ta tạo hiệu chỉnh từ cấu trúc cũ. Như ví dụ bên dưới việc submit sẽ được ngăn cản khi ấn vào nút ấn.
+```js
+<button v-on:submit.prevent="onSubmit"></button>
+```
+
+##### Ví dụ
+
+```js
+<p v-tack>I will now be tacked onto the page</p>
+
+Vue.directive('tack', {
+ bind(el, binding, vnode) {
+    el.style.position = 'fixed'
+  }
+});
+<div id="app">
+  <p>Scroll down the page</p>
+  <p v-tack="70">Stick me 70px from the top of the page</p>
+</div>
+
+Vue.directive('tack', {
+  bind(el, binding, vnode) {
+    el.style.position = 'fixed'
+    el.style.top = binding.value + 'px'
+  }
+});
+```
+Truyền tham số
+```js
+<p v-tack:left="70">I'll now be offset from the left instead of the top</p>
+Vue.directive('tack', {
+  bind(el, binding, vnode) {
+    el.style.position = 'fixed';
+    const s = (binding.arg == 'left' ? 'left' : 'top');
+    el.style[s] = binding.value + 'px';
+  }
+});
+```
+
+Nhiều hơn một dữ liệu
+```js
+<p v-tack="{ top: '40', left: '100' }">Stick me 40px from the top of the
+page and 100px from the left of the page</p>
+
+Vue.directive('tack', {
+  bind(el, binding, vnode) {
+    el.style.position = 'fixed';
+    el.style.top = binding.value.top + 'px';
+    el.style.left = binding.value.left + 'px';
+  }
+});
+```
+
+Thử làm cái gì đó kỳ quặc hơn
+```js
+Vue.directive('scroll', {
+  inserted: function(el, binding) {
+    let f = function(evt) {
+      if (binding.value(evt, el)) {
+        window.removeEventListener('scroll', f);
+      }
+    };
+    window.addEventListener('scroll', f);
+  },
+});
+
+// main app
+new Vue({
+  el: '#app',
+  methods: {
+   handleScroll: function(evt, el) {
+    if (window.scrollY > 50) {
+      TweenMax.to(el, 1.5, {
+        y: -10,
+        opacity: 1,
+        ease: Sine.easeOut
+      })
+    }
+    return window.scrollY > 100;
+    }
+  }
+});
+
+<div class="box" v-scroll="handleScroll">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque amet harum aut ab veritatis earum porro praesentium ut corporis. Quasi provident dolorem officia iure fugiat, eius mollitia sequi quisquam.</p>
+</div>
+```
 
 ## Chương 6 - Vuex
 
